@@ -7,6 +7,7 @@ Polybar plugin to display windows in active i3 workspace
 ## Requirements
 
 * i3
+* i3-msg
 * polybar
 
 ## Quick Start

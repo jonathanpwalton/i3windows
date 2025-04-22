@@ -51,36 +51,36 @@ if __name__ == '__main__':
 	window_title = lambda window: '%{F' + options['window']['color'][window['focused']] + '}' + window_label(window['window_properties'][options['window']['title']['source']].lower()) + '%{F-}'
 
 	with subprocess.Popen(['i3-msg', '-m', '-t', 'subscribe', '["workspace", "window"]'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) as listener:
+		started = False
 		queue = Queue()
 		Thread(target = lambda p, q: [q.put(l) for l in p], args = (listener.stdout, queue), daemon = True).start()
 
-		started = False
 		while True:
 			try:
 				if started: queue.get()
 				else: started = True
+
 				focused = [node for node in json.loads(capture('i3-msg', '-t', 'get_workspaces')) if node['focused'] is True][0]
 				displays = json.loads(capture('i3-msg', '-t', 'get_tree'))['nodes']
 				display = [node for node in displays if node['name'] == options['source']][0]['nodes']
 				workspaces = [node for node in display if node['name'] == 'content'][0]['nodes']
 				workspace = [node for node in workspaces if node['id'] == focused['id']][0]['nodes']
 				windows = chain.from_iterable(top['nodes'] for top in workspace)
+				titles: list[str] = [window_title(window) for window in windows]
 
-				output: list[str] = [window_title(window) for window in windows]
-
-				if (len(output) > options['window']['count']):
-					diff = len(output) - options['window']['count']
-					output = output[:options['window']['count']]
+				if (len(titles) > options['window']['count']):
+					diff = len(titles) - options['window']['count']
+					titles = titles[:options['window']['count']]
 
 					flag = False
-					for name in output:
+					for name in titles:
 						if name.startswith('%{F' + options['window']['color'][True] + '}'):
 							flag = True
 							break
 
-					if flag: output.append('%{F' + options['window']['color'][False] + '}' + f'(+{diff})' + '%{F-}')
-					else: output.append('%{F' + options['window']['color'][True] + '}' + f'(+{diff})' + '%{F-}')
+					if flag: titles.append('%{F' + options['window']['color'][False] + '}' + f'(+{diff})' + '%{F-}')
+					else: titles.append('%{F' + options['window']['color'][True] + '}' + f'(+{diff})' + '%{F-}')
 
-				print(separator.join(output))
+				print(separator.join(titles))
 			except:
 				print('')
