@@ -52,6 +52,7 @@ if __name__ == '__main__':
 				output: list[str] = [window_title(window) for window in windows]
 
 				if (len(output) > options['window']['count']):
+					diff = len(output) - options['window']['count']
 					output = output[:options['window']['count']]
 
 					flag = False
@@ -60,8 +61,8 @@ if __name__ == '__main__':
 							flag = True
 							break
 
-					if flag: output.append('%{F' + options['window']['color'][False] + '} ...%{F-}')
-					else: output.append('%{F' + options['window']['color'][True] + '} ...%{F-}')
+					if flag: output.append('%{F' + options['window']['color'][False] + '}' + f'(+{diff})' + '%{F-}')
+					else: output.append('%{F' + options['window']['color'][True] + '}' + f'(+{diff})' + '%{F-}')
 
 				print(separator.join(output))
 			except:
