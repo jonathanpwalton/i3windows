@@ -32,7 +32,7 @@ tail = true
 
 Customize the module if desired in ```~/.config/polybar/scripts/i3windows/i3windows.py```
 
-```
+```py
 options = {
 	'source': 'HDMI-0',       # the display to use for this module
 	'window': {
