@@ -34,21 +34,21 @@ Customize the module if desired in ```~/.config/polybar/scripts/i3windows/i3wind
 
 ```
 options = {
-	'source': 'HDMI-0',
+	'source': 'HDMI-0',       # the display to use for this module
 	'window': {
 		'title': {
-			'limit': 20,
-			'source': 'class'
+			'limit': 20,          # the maximum width of titles
+			'source': 'class'     # how titles should be shown, one of [class | title]
 		},
 		'color': {
-			True: '#FFFFFF',
-			False: '#777777'
+			True: '#FFFFFF',      # the foreground color of focused window titles
+			False: '#777777'      # the foreground color of unfocused window titles
 		},
-		'count': 8
+		'count': 8              # the maximum number of window titles to display
 	},
 	'separator': {
-		'color': '#777777',
-		'value': ' \u00b7 '
+		'color': '#777777',     # the foreground color of the separator string
+		'value': ' \u00b7 '     # the value of the separator string
 	}
 }
 ```
