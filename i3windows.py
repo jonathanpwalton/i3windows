@@ -23,9 +23,6 @@ from queue import Queue
 from threading import Thread
 from itertools import chain
 
-def capture(*args: str, **kwargs: Any) -> str:
-	return subprocess.check_output(args, **kwargs)
-
 if __name__ == '__main__':
 	options = {
 		'source': 'HDMI-0',       # the display to use for this module
