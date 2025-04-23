@@ -57,8 +57,8 @@ if __name__ == '__main__':
 				if started: queue.get()
 				else: started = True
 
-				focused = [node for node in json.loads(capture('i3-msg', '-t', 'get_workspaces')) if node['focused'] is True][0]
-				displays = json.loads(capture('i3-msg', '-t', 'get_tree'))['nodes']
+				focused = [node for node in json.loads(subprocess.check_output(['i3-msg', '-t', 'get_workspaces'])) if node['focused'] is True][0]
+				displays = json.loads(subprocess.check_output(['i3-msg', '-t', 'get_tree']))['nodes']
 				display = [node for node in displays if node['name'] == options['source']][0]['nodes']
 				workspaces = [node for node in display if node['name'] == 'content'][0]['nodes']
 				workspace = [node for node in workspaces if node['id'] == focused['id']][0]['nodes']
